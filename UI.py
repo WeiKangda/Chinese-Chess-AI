@@ -16,7 +16,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self,  parent=None):
         super(MyMainWindow, self).__init__(parent)
-        self.net = Net('./best_policy_1900.model')  # './best_policy_4.model'
+        self.net = Net('./best_policy_15000.model')  # './best_policy_4.model'
         # 第一个和第二个棋手，  ai 1   人0
         self.board = Board(1, 0)
         #'''如果是双人对战，注释以下五行，并把上面的1,0改为1,1
@@ -45,7 +45,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             return
         self.lineEdit.clear()
         self.board.move()
-        self.label_4.setText("--------------\n电脑回合\n请等待...")
+        self.label_4.setText("--------------\AI's turn\nPlease wait...")
         self.moveSignal.emit()
         self.update()
         self.show()
@@ -58,7 +58,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             return
         self.board.next_move = self.mcts.get_move()  # 格式 xyab
         self.board.move()
-        self.label_4.setText("--------------\n你的回合\n请输入下一步：")
+        self.label_4.setText("--------------\Your turn\nEnter your move：")
         self.moveSignal.emit()
         self.update()
 
@@ -93,7 +93,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.update()
 
     def end(self):
-        self.label_end.setText("棋局结束!")
+        self.label_end.setText("Game over!")
 
 
 if __name__ == "__main__":
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     for i in range(16):
         win.mp.append(QtWidgets.QLabel(win.centralwidget))
         win.op.append(QtWidgets.QLabel(win.centralwidget))
-    win.label_4.setText("--------------\n你的回合\n请输入下一步：")
+    win.label_4.setText("--------------\nYour turn\nEnter your move：")
     win.lm = QtWidgets.QLabel(win.centralwidget)
     win.moveSignal.emit()
     win.show()

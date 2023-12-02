@@ -18,25 +18,26 @@ class Net():
         self.kl_targ = 0.02
         # Define the tensorflow neural network
         # 1. Input:
-        self.input_states = tf.placeholder(
+        tf.compat.v1.disable_eager_execution()
+        self.input_states = tf.compat.v1.placeholder(
                 tf.float32, shape=[None, 21,self.board_height, self.board_width])
         self.input_state = tf.transpose(self.input_states, [0, 2, 3, 1])
 
         # 2. Common Networks Layers
-        self.conv1 = tf.layers.conv2d(inputs=self.input_state,
+        self.conv1 = tf.compat.v1.layers.conv2d(inputs=self.input_state,
                                       filters=32, kernel_size=[3, 3],
                                       padding="same", data_format="channels_last",
                                       activation=tf.nn.relu)
-        self.conv2 = tf.layers.conv2d(inputs=self.conv1, filters=64,
+        self.conv2 = tf.compat.v1.layers.conv2d(inputs=self.conv1, filters=64,
                                       kernel_size=[3, 3], padding="same",
                                       data_format="channels_last",
                                       activation=tf.nn.relu)
-        self.conv3 = tf.layers.conv2d(inputs=self.conv2, filters=128,
+        self.conv3 = tf.compat.v1.layers.conv2d(inputs=self.conv2, filters=128,
                                       kernel_size=[3, 3], padding="same",
                                       data_format="channels_last",
                                       activation=tf.nn.relu)
         # 3-1 Action Networks
-        self.action_conv = tf.layers.conv2d(inputs=self.conv3, filters=4,
+        self.action_conv = tf.compat.v1.layers.conv2d(inputs=self.conv3, filters=4,
                                             kernel_size=[1, 1], padding="same",
                                             data_format="channels_last",
                                             activation=tf.nn.relu)
@@ -45,59 +46,59 @@ class Net():
                 self.action_conv, [-1, 4 * self.board_height * self.board_width])
         # 3-2 Full connected layer, the output is the log probability of moves
         # on each slot on the board
-        self.action_fc = tf.layers.dense(inputs=self.action_conv_flat,
+        self.action_fc = tf.compat.v1.layers.dense(inputs=self.action_conv_flat,
                                          units=187,
                                          activation=tf.nn.log_softmax)
         # 4 Evaluation Networks
-        self.evaluation_conv = tf.layers.conv2d(inputs=self.conv3, filters=2,
+        self.evaluation_conv = tf.compat.v1.layers.conv2d(inputs=self.conv3, filters=2,
                                                 kernel_size=[1, 1],
                                                 padding="same",
                                                 data_format="channels_last",
                                                 activation=tf.nn.relu)
         self.evaluation_conv_flat = tf.reshape(self.evaluation_conv, [-1, 2 * self.board_height * self.board_width])
 
-        self.evaluation_fc1 = tf.layers.dense(inputs=self.evaluation_conv_flat,
+        self.evaluation_fc1 = tf.compat.v1.layers.dense(inputs=self.evaluation_conv_flat,
                                               units=64, activation=tf.nn.relu)
         # output the score of evaluation on current state
-        self.evaluation_fc2 = tf.layers.dense(inputs=self.evaluation_fc1,
+        self.evaluation_fc2 = tf.compat.v1.layers.dense(inputs=self.evaluation_fc1,
                                               units=1, activation=tf.nn.tanh)
 
         # Define the Loss function
         # 1. Label: the array containing if the game wins or not for each state
-        self.labels = tf.placeholder(tf.float32, shape=[None, 1])
+        self.labels = tf.compat.v1.placeholder(tf.float32, shape=[None, 1])
         # 2. Predictions: the array containing the evaluation score of each state
         # which is self.evaluation_fc2
         # 3-1. Value Loss function
         self.value_loss = tf.losses.mean_squared_error(self.labels,
                                                        self.evaluation_fc2)
         # 3-2. Policy Loss function
-        self.mcts_probs = tf.placeholder(
+        self.mcts_probs = tf.compat.v1.placeholder(
                 tf.float32, shape=[None, 187])
         self.policy_loss = tf.negative(tf.reduce_mean(
                 tf.reduce_sum(tf.multiply(self.mcts_probs, self.action_fc), 1)))
         # 3-3. L2 penalty (regularization)
         l2_penalty_beta = 1e-4
-        vars = tf.trainable_variables()
+        vars = tf.compat.v1.trainable_variables()
         l2_penalty = l2_penalty_beta * tf.add_n(
             [tf.nn.l2_loss(v) for v in vars if 'bias' not in v.name.lower()])
         # 3-4 Add up to be the Loss function
         self.loss = self.value_loss + self.policy_loss + l2_penalty
 
         # Define the optimizer we use for training
-        self.learning_rate = tf.placeholder(tf.float32)
-        self.optimizer = tf.train.AdamOptimizer(
+        self.learning_rate = tf.compat.v1.placeholder(tf.float32)
+        self.optimizer = tf.compat.v1.train.AdamOptimizer(
                 learning_rate=self.learning_rate).minimize(self.loss)
         # Make a session
-        self.session = tf.Session()
+        self.session = tf.compat.v1.Session()
         # calc policy entropy, for monitoring only
         self.entropy = tf.negative(tf.reduce_mean(
                 tf.reduce_sum(tf.exp(self.action_fc) * self.action_fc, 1)))
         # Initialize variables
-        init = tf.global_variables_initializer()
+        init = tf.compat.v1.global_variables_initializer()
         self.session.run(init)
 
         # For saving and restoring
-        self.saver = tf.train.Saver()
+        self.saver = tf.compat.v1.train.Saver()
         if model_file is not None:
             self.restore_model(model_file)
 

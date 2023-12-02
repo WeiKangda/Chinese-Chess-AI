@@ -2,8 +2,8 @@ from Net import Net
 from MCTS import MCTS
 from Board import Board
 
-net = Net('./best_policy_1900.model') #'./best_policy_4.model'
-count = 5000  # 训练的局数
+net = Net('./best_policy_15000.model') #'./best_policy_4.model'
+count = 15000  # 训练的局数
 count_ai = 1
 board_move_data = []
 board_round = []
