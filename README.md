@@ -32,5 +32,5 @@
   
   
   
-**To be continued**
+**The UI is set to let player play against AI. You can change to play agianst another human by changing the Board initializaion.**
 
