@@ -5,34 +5,38 @@ np.set_printoptions(threshold=np.inf)
 
 '''
 
-【棋盘】
+Chessboard:
 
-列号编号从左到右：012345678
-行号编号从下到上：0123456789
-红方在棋盘下部，黑方在棋盘上部
-描述位置格式：xy       x为行号(0省略)，y为列号
-描述移动格式：xyab    xy为移动前坐标，ab为移动后坐标
+Column numbers from left to right: 012345678
+Row numbers from bottom to top: 0123456789
+Red side is at the bottom of the board, and the black side is at the top.
+Position description format: xy, where x is the row number (0 is omitted), and y is the column number.
+Move description format: xyab, where xy is the coordinate before the move, and ab is the coordinate after the move.
+Chess Pieces:
 
-    
-移动格式：xyx'y'
-    xy为移动前坐标
-        x为行号(为0则省略)
-        y为列号(xy均为0时省略)
-    x'y'为移动后坐标
+Red side:
+General (帅) at 104
+Advisors (仕) at 203/205
+Elephants (相) at 302/306
+Horses (马) at 401/407
+Chariots (车) at 500/508
+Cannons (炮) at 621/627
+Soldiers (兵) at 730/732/734/736/738
+Black side:
+General (将) at -104
+Advisors (士) at -203/-205
+Elephants (相) at -302/-306
+Horses (马) at -401/-407
+Chariots (车) at -500/-508
+Cannons (炮) at -621/-627
+Soldiers (卒) at -703/-732/-734/-736/-738
+Empty position: 0
+Chess Notation:
 
+Chess pieces are represented by "p," and positions are represented by "c." For example, 632 represents a chess piece, and 32 represents a position.
+Input:
 
-【棋子】
-红方
-帅104 仕203/205 象302/306 马401/407 车500/508 炮621/627 兵730/732/734/736/738
-黑方
-将-104 士-203/-205 相-302/-306 马-401/-407 车-500/-508 炮-621/-627 卒-703/-732/-734/-736/-738
-空位 0
-
-棋子用p表示：如632
-位置用c表示：如32
-
-输入：己方平面7个，是否是先手,对方平面7个,己方布局，对方布局，
-对方上次移动的位置，我方可用的行动三个平面  共21个
+Seven planes for one's own side, whether it's the first move, seven planes for the opponent, one's own layout, the opponent's layout, the opponent's last move position, and three available action planes for one's own side. In total, 21 pieces of information.
 
 '''
 
@@ -52,23 +56,11 @@ class Board:
         self.my_pieces = [104, 203,205,302,  306,401,  407,500,  508, 621, 627, 730,  732,  734, 736, 738]
         self.op_pieces = [-194, -293,  -295,-392,  -396, -491,  -497,-590, -598, -671, -677, -760,  -762,  -764, -766, -768]
 
-        # self.situation = [[0, 401, 0, 0, 104, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 734, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, -764, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #                   [0, 0, 0, 0, -194, 0, 0, -497, 0]]
-        # self.my_pieces = [104, 401, 734]
-        # self.op_pieces = [-194, -497, -764]
         self.temp_pieces = 0
         self.player1 = p1
         self.player2 = p2
         self.current_player = self.player1
-        self.result = 0  #先手胜1平0负-1
+        self.result = 0  #win1draw0loss-1
         self.current_player_start = 1
         self.end = 0
         self.round = 0

@@ -177,4 +177,4 @@ class Net():
 
     def restore_model(self, model_path):
         self.saver.restore(self.session, model_path)
-        print('读取文件成功')
+        print('File read')

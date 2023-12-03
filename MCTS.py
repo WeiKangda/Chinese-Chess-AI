@@ -144,9 +144,6 @@ class MCTS(object):
         move_probs = np.zeros(187)
         r=1
         for n in range(self._n_playout):
-            #print('进行第%d次mcts模拟' % (r))
-            # if n%100==0:
-            #      print('正在进行第%d次mcts模拟' % (n))
             self.single(r)
             r+=1
         # calc the move probabilities based on visit counts at the root node

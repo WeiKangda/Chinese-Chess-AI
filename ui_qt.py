@@ -74,23 +74,24 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "中国象棋-人工智能测试"))
-        self.label_3.setText(_translate("MainWindow", "移动格式：xyx\'y\'\n"
-"xy为移动前坐标\n"
-"x为行号(为0则省略)\n"
-"y为列号(xy均为0时省略)\n"
-"x\'y\'为移动后坐标\n"
-"x\'为0不能省略\n"
-"如9484,122,10\n"                                   
-"输入后请等待电脑走步\n"
-"如数据有误，棋子不会移动，\n"
-"请重新输入\n"
- "绿点所示棋子，\n"
- "为电脑上一步移动的棋子"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Chinese Chess-AlphaZero"))
+        self.label_3.setText(_translate("MainWindow", "Move format：xyx\'y\'\n"
+"xy are coordiantes before the move.\n"
+"x is the row number.\n"
+"y is the column number.\n"
+"x\'y\'are coordiantes\n" 
+"after the move.\n"                                   
+"Please wait for the AI\n" 
+"after your move.\n"
+"The piece won't move if the \n"
+"coordinates are illegal.\n"
+"Please try again.\n"
+ "Green dot represents\n"
+ "the last move by AI"))
         self.label_4.setText(_translate("MainWindow", "--------------\n"
-"你的回合\n"
-"请输入下一步："))
-        self.pushButton.setText(_translate("MainWindow", "停止下棋"))
-        self.label_end.setText(_translate("MainWindow", "棋局进行中"))
+"Your turn\n"
+"Enter your move"))
+        self.pushButton.setText(_translate("MainWindow", "Game over"))
+        self.label_end.setText(_translate("MainWindow", "Game on"))
 
 
