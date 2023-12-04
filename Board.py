@@ -116,14 +116,12 @@ class Board:
         return net_train_data
 
     def decode_board(self):
-        #input  输入：己方平面7个，是否是先手,对方平面7个,己方棋子布局，对方棋子布局，
-        #对方上次移动的位置，我方可用的行动3个平面  共21个平面
         net_inut  = [None] * 21
         for i in range(21):
             net_inut[i] = [None] * 10
             for j in range(10):
                 net_inut[i][j] = [0] * 9
-        #14
+
         for i in range(10):
             for j in range(9):
                 if self.situation[i][j]!=0:
@@ -229,14 +227,14 @@ class Board:
     def print_result(self,n):
         #红方=先手方
         if self.result == 1:
-            r = '红方胜'
-            print('第%d局结束，%s' % (n, r))
+            r = 'Red win'
+            print('End of the %dth game，%s' % (n, r))
         elif self.result == -1:
-            r = '黑方胜'
-            print('第%d局结束，%s' % (n, r))
+            r = 'Black win'
+            print('End of the %dth game，%s' % (n, r))
         else:
-            r = '平局'
-            print(self.result,'第%d局结束，%s' % (n, r))
+            r = 'Tie'
+            print(self.result,'End of the %dth game，%s' % (n, r))
 
     def find_move(self):
         self.valid_move = []
