@@ -1,0 +1,7 @@
+python>= 3.5
+PyQt5
+pygame
+numpy
+xlrd
+xlutils
+tensorflow

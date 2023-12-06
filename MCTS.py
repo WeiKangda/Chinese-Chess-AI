@@ -118,6 +118,7 @@ class MCTS(object):
             # Greedily select next move.
             board_temp.next_move, node = node.select(self._c_puct)  # action, node =
             board_temp.move()
+            print("move")
         board_temp.find_move()
         board_temp.not_end()
         if board_temp.not_end_number:
@@ -164,11 +165,13 @@ class MCTS(object):
             move = np.random.choice(acts,p=0.75 * probs + 0.25 * np.random.dirichlet(0.3 * np.ones(len(probs))))
             # update the root node and reuse the search tree
             self.update_with_move()
+            print(move)
             return move
         else:
             move = np.random.choice(acts, p=probs)
             # reset the root node
             self.update_with_move()
+            print(move)
             return move
 
     def update_with_move(self):

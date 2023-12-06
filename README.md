@@ -14,7 +14,7 @@
   
     ·xlrd
   
-    ·xlutils.copy
+    ·xlutils
   
     ·tensorflow
 
@@ -22,8 +22,14 @@
 
 **To play with the trained AI models，run:**
 
-    ·UI.py
+Play with AlphaZero:
 
+    python main.py a
+
+Play with our Seaching Method:
+
+    python main.py s
+    
 
 
 **To train the AI model, run:**
@@ -32,5 +38,4 @@
   
   
   
-**The UI is set to let player play against AI. You can change to play agianst another human by changing the Board initializaion.**
 
